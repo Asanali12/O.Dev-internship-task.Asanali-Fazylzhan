@@ -16,13 +16,13 @@
   <!-- Your custom styles (optional) -->
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body onload="refresh()">
 
   <!-- Start your project here-->
-  <div class="w-100 p-3" id="button_div">
+  <div class="w-100 p-3" id="button_div"><!--div with the refresh button-->
     <button type="button" class="btn btn-light" onclick="refresh()">Upload data</button>
   </div>
-  <div class="w-100 p-3" id="this_div">
+  <div class="w-100 p-3" id="this_div"><!--main div where the table is going to be displayed-->
   </div>
   <!-- End your project here-->
 
@@ -37,17 +37,17 @@
   <!-- Your custom scripts (optional) -->
 
   <script type="text/javascript">
-  function refresh(){
+  function refresh(){//function to refresh the table
     var main_div = document.getElementById("this_div");
-    main_div.innerHTML="";
-    var xmlHttp = new XMLHttpRequest();
+    main_div.innerHTML="";//cleaning the div
+    var xmlHttp = new XMLHttpRequest();//creating a get request for retrieving data
     xmlHttp.open("GET", "https://api.exchangeratesapi.io/latest", false);
     xmlHttp.send(null);
-    var curr=JSON.parse(xmlHttp.responseText);
-    var arrCurrencies=Object.keys(curr.rates);
-    var arrRates=Object.values(curr.rates);
+    var curr=JSON.parse(xmlHttp.responseText);//parsing data into an object
+    var arrCurrencies=Object.keys(curr.rates);//getting the names of the currencies
+    var arrRates=Object.values(curr.rates);//getting their rates
 
-    var tb=document.createElement('table');
+    var tb=document.createElement('table');//creating the table itself
     tb.id="mainTable";
     tb.className="table-striped";
     tb.width="100%";
@@ -57,35 +57,11 @@
     var tableBody=document.createElement('tbody');
     var i=0;
     for (i=0; i<arrRates.length; i++){
-      tableBody.innerHTML+="<tr><th scope='row'>"+arrCurrencies[i]+"</th><th>"+arrRates[i]+"</th></tr>";
+      tableBody.innerHTML+="<tr><th scope='row'>"+arrCurrencies[i]+"</th><th>"+arrRates[i]+"</th></tr>";//inserting values into the table
     };
-    tb.appendChild(tableBody);
+    tb.appendChild(tableBody);//appending everything
     main_div.appendChild(tb);
   }
-
-  var main_div = document.getElementById("this_div");
-  main_div.innerHTML="";
-  var xmlHttp = new XMLHttpRequest();
-  xmlHttp.open("GET", "https://api.exchangeratesapi.io/latest", false);
-  xmlHttp.send(null);
-  var curr=JSON.parse(xmlHttp.responseText);
-  var arrCurrencies=Object.keys(curr.rates);
-  var arrRates=Object.values(curr.rates);
-
-  var tb=document.createElement('table');
-  tb.id="mainTable";
-  tb.className="table-striped";
-  tb.width="100%";
-  var tableHead=document.createElement('thead');
-  tableHead.innerHTML+="<tr><th scope='col'>Currency</th><th scope='col'>Rate</th></tr>";
-  tb.appendChild(tableHead);
-  var tableBody=document.createElement('tbody');
-  var i=0;
-  for (i=0; i<arrRates.length; i++){
-    tableBody.innerHTML+="<tr><th scope='row'>"+arrCurrencies[i]+"</th><th>"+arrRates[i]+"</th></tr>";
-  };
-  tb.appendChild(tableBody);
-  main_div.appendChild(tb);
   </script>
 
 </body>
